@@ -1,0 +1,9 @@
+{
+    "health": 20,
+    "items": {
+        "sword": {
+            "description": "just a sword"
+        }
+    }
+    
+}

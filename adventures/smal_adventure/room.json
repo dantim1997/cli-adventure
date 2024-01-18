@@ -1,0 +1,48 @@
+{
+    "rooms":[
+        {
+            "roomID": 1,
+            "description": "you are now in the first room, to the north there is a door",
+            "routes": {
+                "north": {
+                    "location": 2,
+                    "is_locked": false
+                }
+            },
+            "items": {
+                "stone": {
+                    "description": "just a stone",
+                    "taken": false
+                }
+            }
+        },
+        {
+            "roomID": 2,
+            "description": "you are now in the second room, there is a door to the north and the south, you also see a key on the table",
+            "routes": {
+                "north": {
+                    "location": 3,
+                    "is_locked": true,
+                    "unlock_able": "key"
+                },
+                "south":{
+                    "location": 3
+                }
+            },
+            "items": {
+                "key": {
+                    "description": "a key for a locked door",
+                    "taken": false
+                }
+            }
+        },
+        {
+            "roomID": 3,
+            "description": "you are now in the thired room, to the north there is a door",
+            "routes": {
+                "north": 3,
+                "south": 2
+            }
+        }
+    ]
+}
