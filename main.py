@@ -26,11 +26,16 @@ def adventures():
     print("adventures:")
     dir_path = "./adventures"
     files = listdir(dir_path)
-    print(files)
+    adventures = []
+    counter = 0
+    for file in files:
+        counter = counter+1
+        print(str(counter) +". "+file)
+        adventures.append(file)
 
-    print("start by selecting the name")
-    input()
-    room.game("adventures/smal_adventure/")
+    print("start by selecting the number")
+    number = input()
+    room.game("adventures/"+adventures[int(number)-1]+"/")
 
 def update():
     print("updated")
