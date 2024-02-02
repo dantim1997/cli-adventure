@@ -1,45 +1,58 @@
-from os import listdir
-from os.path import isfile, join
-import json
-from room import room
+import os
+from room_functions import room_functions
+version = 0.1
+
 
 def main():
-    print("Hello World!")
+    print("version:"+version)
     main_menu()
 
 def main_menu():
-    print("Hello, welcome in the main menu, what you like to do?")
-    print("1. adventures")
-    print("2. look for updates")
-    print("3. exit")
-    x = int(input())
-    if 1 == x:
+    print("Hello, welcome to the main menu. What would you like to do?")
+    print("1. Adventures")
+    print("2. Look for Updates")
+    print("3. Exit")
+
+    choice = input("Enter the number of your choice: ")
+
+    if choice == '1':
         adventures()
-    elif 2 == x:
+    elif choice == '2':
         update()
-    elif 3 == x:
-        exit()
-    else: 
-        "wrong number"
+    elif choice == '3':
+        exit_program()
+    else:
+        print("Invalid input. Please enter a valid number.")
+        main_menu()
 
 def adventures():
-    print("adventures:")
+    print("Adventures:")
     dir_path = "./adventures"
-    files = listdir(dir_path)
-    adventures = []
-    counter = 0
-    for file in files:
-        counter = counter+1
-        print(str(counter) +". "+file)
-        adventures.append(file)
+    adventures = [f for f in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, f))]
 
-    print("start by selecting the number")
-    number = input()
-    room.game("adventures/"+adventures[int(number)-1]+"/")
+    for i, adventure in enumerate(adventures, start=1):
+        print(f"{i}. {adventure}")
+
+    selection = input("Start by selecting the number: ")
+
+    try:
+        selected_index = int(selection) - 1
+        selected_adventure = adventures[selected_index]
+        adventure_path = os.path.join(dir_path, selected_adventure)
+        adventure_path = adventure_path.replace('\\', '/')
+        room_functions.game(adventure_path)
+    except (ValueError, IndexError):
+        print("Invalid selection. Please enter a valid number.")
+        adventures()
 
 def update():
-    print("updated")
+    print("Updated")
     main_menu()
+
+def exit_program():
+    print("Exiting the program. Goodbye!")
+    # Add any cleanup code if necessary
+    exit()
 
 if __name__ == "__main__":
     main()
