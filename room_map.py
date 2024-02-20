@@ -1,3 +1,6 @@
+from base_item import base_item
+
+
 class RoomMap:
     def __init__(self, data):
         self.rooms = []
@@ -11,7 +14,7 @@ class Room:
         self.roomID = data.get("roomID", None)
         self.description = data.get("description", "")
         self.routes = {}
-        self.items = {}
+        self.items = []
 
         if "routes" in data:
             self.routes = {direction: Route(route_data) for direction, route_data in data["routes"].items()}
@@ -49,5 +52,6 @@ class Route:
 
 class Item:
     def __init__(self, data):
+        print(data)
         self.description = data.get("description", "")
         self.taken = data.get("taken", False)

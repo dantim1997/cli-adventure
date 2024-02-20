@@ -1,6 +1,6 @@
 import os
 from room_functions import room_functions
-version = 0.1
+version = "0.1"
 
 
 def main():

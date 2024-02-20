@@ -1,10 +1,12 @@
 import json
+from base_item import base_item
 import color
 import room_map
+import player
 
 class room_functions:
     currentroom = room_map.Room
-    player = []
+    player = player.Player
     json_file = ""
 
     def do_action():
@@ -38,7 +40,7 @@ class room_functions:
         elif(action[0] == "inventory"):
             if(len(action) == 1 ):
                 print("you have the following items:")
-                for item in room_functions.player["items"]:
+                for item in room_functions.player.items:
                     print(item)
         
         #take
@@ -50,10 +52,11 @@ class room_functions:
                         print(item)
             elif(len(action) == 2):
                 try:
+                    print(room_functions.currentroom.items)
                     for item in room_functions.currentroom.items:
-                        print(item)
+                        print(room_functions.currentroom.get_item_info(item))
                         if(action[1] == item):
-                            room_functions.player["items"][action[1]] = item
+                            room_functions.player.add_item(room_map.Item(room_functions.currentroom.get_item_info(item)))
                             print(room_functions.currentroom.set_item_taken(item, True).taken)
                 except ZeroDivisionError as e:
                     print(action[1]+" can not be found")
@@ -62,12 +65,19 @@ class room_functions:
         elif(action[0] == "use"):       
             if(len(action) == 1 ):
                 print("you can use the following items:")
-                for item in room_functions.player["items"]:
+                for item in room_functions.player.items:
                     print(item)
             elif(len(action[1]) == 2):
                 print("What do you want to use "+action[1]+"on?")
             elif(action[2] == "on"):
                 #TODO
+                for i in room_functions.currentroom.routes():
+                    if(i.unlock_able == action[1]):
+                        i.is_locked ==  False;
+
+                        room_functions.player.items.remove([action[1]])
+                        print(i + "is now unlocked")
+
                 print("not yet done")
         # walk
         elif(action[0] == "walk"):
@@ -110,9 +120,9 @@ class room_functions:
     def load_player():
         f = open(room_functions.json_file+ "/player.json")
         data = json.load(f)
-        # Closing file
         f.close()
-        room_functions.player = data
+        room_functions.player = player.Player(data)
+        # Closing file
 
     def game(json_location):
         print("start")
